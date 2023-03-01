@@ -4,9 +4,6 @@ on:
   push:
     branches: 
     - main
-  pull_request:
-    branches: 
-    - main
   workflow_dispatch:
 
 jobs:
@@ -27,7 +24,7 @@ jobs:
           sudo echo ${{ secrets.GOOGLE_CREDS }} | base64 -d > sa-key.json    
 
       - name: Pull Google docs
-        uses: stackql/stackql-exec
+        uses: stackql/stackql-exec@v1
         with:
           # auth_str: '{ "github": { "type": "basic", "credentialsenvvar": "STACKQL_GITHUB_CREDS" } }'
           query: "REGISTRY PULL google"
