@@ -18,6 +18,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: StackQL Studios - Setup StackQL
+        uses: stackql/setup-stackql@v1.1.0
+
       - name: Prep Google Creds
         shell: bash
         run: | ## use the base64 encoded secret to create json file
