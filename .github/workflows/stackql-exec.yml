@@ -32,7 +32,7 @@ jobs:
           sudo echo ${{ secrets.GOOGLE_CREDS }} | base64 -d > sa-key.json    
 
       - name: Pull Google docs
-        uses: stackql/stackql-exec@v1.0.0
+        uses: stackql/stackql-exec@v1.0.1
         with:
           query: "REGISTRY PULL google"
 
