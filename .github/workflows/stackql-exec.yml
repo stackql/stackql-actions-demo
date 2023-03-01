@@ -1,0 +1,41 @@
+name: Demo of stackql-exec
+
+on:
+  push:
+    branches: 
+    - main
+  pull_request:
+    branches: 
+    - main
+  workflow_dispatch:
+
+jobs:
+  stackql-exec-job:
+    name: stackql-exec-job
+    runs-on: ubuntu-latest
+    env: {}
+
+    steps:
+      - uses: actions/checkout@v3
+        name: "[SETUP] checkout repo"
+        with:
+          fetch-depth: 0
+
+      - name: Prep Google Creds
+        shell: bash
+        run: | ## use the base64 encoded secret to create json file
+          sudo echo ${{ secrets.GOOGLE_CREDS }} | base64 -d > sa-key.json    
+
+      - name: Pull Google docs
+        uses: stackql/stackql-exec
+        with:
+          # auth_str: '{ "github": { "type": "basic", "credentialsenvvar": "STACKQL_GITHUB_CREDS" } }'
+          query: "REGISTRY PULL google"
+
+      # - name: exec google example with query file
+      #   id: exec-stackql-file
+      #   uses: ./
+      #   with:
+      #     auth_obj_path: './stackql_scripts/auth.json'
+      #     query_file_path: './stackql_scripts/google-example.iql'
+
