@@ -18,7 +18,7 @@
 >>>
 {{ $root := . }}
 {{range $root.instances}}
-INSERT /*+ AWAIT */ INTO google.compute.instances(
+INSERT INTO google.compute.instances(
   project,
   zone,
   data__name,

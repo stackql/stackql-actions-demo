@@ -1,0 +1,21 @@
+<<<jsonnet
+{
+    project: 'stackql-demo-2',
+    zone: 'australia-southeast1-b',
+    instances: [
+        {
+            name: 'actions-test-1',
+        },
+        {
+            name: 'actions-test-2',
+        },
+    ]
+}
+>>>
+{{ $root := . }}
+{{range $root.instances}}
+EXEC google.compute.instances.stop 
+@instance='{{.name}}',
+@project='{{$root.project}}',
+@zone='{{$root.zone}}';
+{{end}}
