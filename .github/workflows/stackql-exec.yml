@@ -34,7 +34,6 @@ jobs:
       - name: Pull Google docs
         uses: stackql/stackql-exec@v1.0.0
         with:
-          # auth_str: '{ "github": { "type": "basic", "credentialsenvvar": "STACKQL_GITHUB_CREDS" } }'
           query: "REGISTRY PULL google"
 
       # - name: exec google example with query file
