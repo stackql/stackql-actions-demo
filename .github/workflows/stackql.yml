@@ -19,9 +19,11 @@ jobs:
           fetch-depth: 0
 
       - name: prep Google creds
+        env: 
+          GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
         shell: bash
         run: | ## use the base64 encoded secret to create json file
-          sudo echo ${{ secrets.GOOGLE_CREDS }} | base64 -d > sa-key.json    
+          echo $GOOGLE_CREDS | base64 -d > sa-key.json    
 
       - name: setup StackQL
         uses: stackql/setup-stackql@v1.1.0
