@@ -18,29 +18,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: StackQL Studios - Setup StackQL
-      #   uses: stackql/setup-stackql@v1.1.0
-
-      # - name: Test binary
-      #   shell: bash
-      #   run: |
-      #     stackql --version
-
-      - name: Prep Google Creds
+      - name: prep Google creds
         shell: bash
         run: | ## use the base64 encoded secret to create json file
           sudo echo ${{ secrets.GOOGLE_CREDS }} | base64 -d > sa-key.json    
 
-      - name: Pull Google docs
+      - name: setup StackQL
+        uses: stackql/setup-stackql@v1.1.0
+
+      - name: pull Google docs
         uses: stackql/stackql-exec@v1.0.1
         with:
           auth_obj_path: stackql/auth.json
           query: "REGISTRY PULL google"
 
-      # - name: exec google example with query file
-      #   id: exec-stackql-file
-      #   uses: ./
-      #   with:
-      #     auth_obj_path: './stackql_scripts/auth.json'
-      #     query_file_path: './stackql_scripts/google-example.iql'
+      - name: dry run StackQL query
+        shell: bash
+        run: |
+          stackql exec -i ./stackql/scripts/deploy-instances.iql --output text -H --dryrun
+
+      - name: exec example google query file
+        uses: ./
+        with:
+          auth_obj_path: './stackql/auth.json'
+          query_file_path: './stackql/scripts/deploy-instances.iql'
 
