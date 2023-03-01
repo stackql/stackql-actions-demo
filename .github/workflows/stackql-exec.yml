@@ -18,13 +18,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: StackQL Studios - Setup StackQL
-        uses: stackql/setup-stackql@v1.1.0
+      # - name: StackQL Studios - Setup StackQL
+      #   uses: stackql/setup-stackql@v1.1.0
 
-      - name: Test binary
-        shell: bash
-        run: |
-          stackql --version
+      # - name: Test binary
+      #   shell: bash
+      #   run: |
+      #     stackql --version
 
       - name: Prep Google Creds
         shell: bash
@@ -34,6 +34,7 @@ jobs:
       - name: Pull Google docs
         uses: stackql/stackql-exec@v1.0.1
         with:
+          auth_obj_path: /stackql/auth.json
           query: "REGISTRY PULL google"
 
       # - name: exec google example with query file
