@@ -55,5 +55,5 @@ jobs:
         uses: stackql/stackql-assert@v1.0.2
         with:
           auth_obj_path: './stackql/auth.json'
-          test_query_path: './stackql/scripts/check-instances.iql'
+          query_file_path: './stackql/scripts/check-instances.iql'
           expected_rows: 4
