@@ -13,6 +13,14 @@
             name: 'actions-test-2',
             machineType: 'https://www.googleapis.com/compute/v1/projects/stackql-demo-2/zones/australia-southeast1-b/machineTypes/f1-micro',
         },
+        {
+            name: 'actions-test-3',
+            machineType: 'https://www.googleapis.com/compute/v1/projects/stackql-demo-2/zones/australia-southeast1-b/machineTypes/e2-micro',
+        },
+        {
+            name: 'actions-test-4',
+            machineType: 'https://www.googleapis.com/compute/v1/projects/stackql-demo-2/zones/australia-southeast1-b/machineTypes/f1-micro',
+        },        
     ]
 }
 >>>
