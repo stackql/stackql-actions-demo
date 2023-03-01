@@ -23,7 +23,6 @@ jobs:
           GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
         shell: bash
         run: | ## use the base64 encoded secret to create json file
-          # sudo echo $GOOGLE_CREDS | base64 -d > sa-key.json    
           sudo echo $GOOGLE_CREDS > sa-key.json    
 
       - name: setup StackQL
