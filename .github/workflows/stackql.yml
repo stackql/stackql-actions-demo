@@ -41,7 +41,7 @@ jobs:
           stackql exec -i ./stackql/scripts/deploy-instances.iql --output text -H --dryrun
 
       - name: exec example google query file
-        uses: ./
+        uses: stackql/stackql-exec@v1.0.1
         with:
           auth_obj_path: './stackql/auth.json'
           query_file_path: './stackql/scripts/deploy-instances.iql'
