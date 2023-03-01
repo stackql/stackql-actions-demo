@@ -34,7 +34,7 @@ jobs:
       - name: Pull Google docs
         uses: stackql/stackql-exec@v1.0.1
         with:
-          auth_obj_path: /stackql/auth.json
+          auth_obj_path: stackql/auth.json
           query: "REGISTRY PULL google"
 
       # - name: exec google example with query file
