@@ -60,3 +60,19 @@ jobs:
           auth_obj_path: './stackql/auth.json'
           test_query_file_path: './stackql/scripts/check-instances.iql'
           expected_rows: 4
+
+      - uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        id: init
+        run: cd terraform; terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
+

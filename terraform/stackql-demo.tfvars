@@ -1,0 +1,5 @@
+instance_count = "3"
+machine_type = "e2-micro"
+zone = "australia-southeast1-c"
+image = "debian-cloud/debian-11"
+network = "default"
