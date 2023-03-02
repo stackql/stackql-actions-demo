@@ -1,5 +1,5 @@
 provider "google" {
-    credentials = file("creds/stackql-demo.json")
+    credentials = file("sa-key.json")
     project = "stackql-demo-2"
 }
 
