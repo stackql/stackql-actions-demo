@@ -83,5 +83,5 @@ jobs:
         env:
           TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDS }}      
         id: apply
-        run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars
+        run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars -auto-approve
 
