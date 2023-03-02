@@ -68,6 +68,8 @@ jobs:
         run: cd terraform; terraform init
 
       - name: Terraform Validate
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDS }}      
         id: validate
         run: cd terraform; terraform validate -no-color
 
