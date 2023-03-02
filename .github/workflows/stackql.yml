@@ -10,13 +10,13 @@ jobs:
   stackql-exec-job:
     name: stackql-exec-job
     runs-on: ubuntu-latest
-    env: {}
+    # env: {}
 
     steps:
       - uses: actions/checkout@v3
         name: "[SETUP] checkout repo"
-        with:
-          fetch-depth: 0
+        # with:
+        #   fetch-depth: 0
 
       - name: prep Google creds
         env: 
@@ -25,8 +25,8 @@ jobs:
         run: | 
           sudo echo $GOOGLE_CREDS > sa-key.json    
 
-      - name: setup StackQL
-        uses: stackql/setup-stackql@v1.1.0
+      # - name: setup StackQL
+      #   uses: stackql/setup-stackql@v1.1.0
 
       - name: pull Google docs
         uses: stackql/stackql-exec@v1.0.1
