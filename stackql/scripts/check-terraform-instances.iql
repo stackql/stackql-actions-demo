@@ -5,7 +5,7 @@
     nameLike: 'terraform-',
 }
 >>>
-SELECT id, name 
+SELECT name 
 FROM google.compute.instances 
 WHERE project = '{{.project}}' 
 AND zone = '{{.zone}}'

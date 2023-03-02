@@ -85,9 +85,9 @@ jobs:
         id: apply
         run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars -auto-approve
 
-      - name: check if we have 4 instances using stackql-assert - should fail
+      - name: check terraform deployment using stackql-assert - should fail
         uses: stackql/stackql-assert@v1.0.2
         with:
           auth_obj_path: './stackql/auth.json'
           test_query_file_path: './stackql/scripts/check-terraform-instances.iql'
-          expected_rows: 4
+          expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
