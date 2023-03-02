@@ -25,10 +25,10 @@ jobs:
         run: | 
           sudo echo $GOOGLE_CREDS > sa-key.json    
 
-      - name: setup StackQL
-        uses: stackql/setup-stackql@v1.1.0
-        with:
-          use_wrapper: true
+      # - name: setup StackQL
+      #   uses: stackql/setup-stackql@v1.1.0
+      #   with:
+      #     use_wrapper: true
 
       - name: pull Google docs
         uses: stackql/stackql-exec@v1.0.1
@@ -41,25 +41,25 @@ jobs:
         run: |
           stackql exec -i ./stackql/scripts/deploy-instances.iql --output text -H --dryrun
 
-      - name: deploy instances using stackql-exec
-        uses: stackql/stackql-exec@v1.0.1
-        continue-on-error: true
-        with:
-          auth_obj_path: './stackql/auth.json'
-          query_file_path: './stackql/scripts/deploy-instances.iql'
+      # - name: deploy instances using stackql-exec
+      #   uses: stackql/stackql-exec@v1.0.1
+      #   continue-on-error: true
+      #   with:
+      #     auth_obj_path: './stackql/auth.json'
+      #     query_file_path: './stackql/scripts/deploy-instances.iql'
 
-      - name: stop running instances using stackql-exec
-        uses: stackql/stackql-exec@v1.0.1
-        with:
-          auth_obj_path: './stackql/auth.json'
-          query_file_path: './stackql/scripts/stop-instances.iql'
+      # - name: stop running instances using stackql-exec
+      #   uses: stackql/stackql-exec@v1.0.1
+      #   with:
+      #     auth_obj_path: './stackql/auth.json'
+      #     query_file_path: './stackql/scripts/stop-instances.iql'
 
-      - name: check if we have 4 instances using stackql-assert
-        uses: stackql/stackql-assert@v1.0.2
-        with:
-          auth_obj_path: './stackql/auth.json'
-          test_query_file_path: './stackql/scripts/check-instances.iql'
-          expected_rows: 4
+      # - name: check if we have 4 instances using stackql-assert
+      #   uses: stackql/stackql-assert@v1.0.2
+      #   with:
+      #     auth_obj_path: './stackql/auth.json'
+      #     test_query_file_path: './stackql/scripts/check-instances.iql'
+      #     expected_rows: 4
 
       - uses: hashicorp/setup-terraform@v2
 
@@ -69,10 +69,9 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: cd terraform; terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
-        continue-on-error: true
+        run: cd terraform; terraform plan -no-color
 
