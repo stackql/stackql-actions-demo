@@ -74,12 +74,14 @@ jobs:
         run: cd terraform; terraform validate -no-color
 
       - name: Terraform Plan
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDS }}      
         id: plan
         run: cd terraform; terraform plan -no-color -var-file=stackql-demo.tfvars
 
-      # - name: Terraform Apply
-      #   env:
-      #     TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDS }}      
-      #   id: validate
-      #   run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars
+      - name: Terraform Apply
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDS }}      
+        id: validate
+        run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars
 
