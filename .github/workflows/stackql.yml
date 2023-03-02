@@ -10,13 +10,13 @@ jobs:
   stackql-exec-job:
     name: stackql-exec-job
     runs-on: ubuntu-latest
-    # env: {}
+    env: {}
 
     steps:
       - uses: actions/checkout@v3
         name: "[SETUP] checkout repo"
-        # with:
-        #   fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: prep Google creds
         env: 
