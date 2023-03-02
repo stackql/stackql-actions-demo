@@ -25,8 +25,8 @@ jobs:
         run: | 
           sudo echo $GOOGLE_CREDS > sa-key.json    
 
-      - name: setup StackQL
-        uses: stackql/setup-stackql@v1.1.0
+      # - name: setup StackQL
+      #   uses: stackql/setup-stackql@v1.1.0
 
       - name: pull Google docs
         uses: stackql/stackql-exec@v1.0.1
