@@ -1,3 +1,7 @@
+variable "google_credentials" {
+  type = string
+}
+
 variable "instance_count" {
   type = string
 }
