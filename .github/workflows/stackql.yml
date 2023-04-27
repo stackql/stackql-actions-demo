@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  stackql-exec-job:
-    name: stackql-exec-job
+  stackql-actions-demo:
+    name: stackql-actions-demo
     runs-on: ubuntu-latest
     env: {}
 
