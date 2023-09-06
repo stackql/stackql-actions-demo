@@ -127,8 +127,8 @@ jobs:
           test_query_file_path: './stackql/scripts/run-compliance-checks/run-compliance-checks.iql'
           expected_rows: 0
 
-      - name: "[CLEANUP] terraform destroy"
+      - name: "[CLEANUP] delete instances and bucket using stackql-exec"
         if: failure()
-        env:
-          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: cd terraform; terraform destroy -auto-approve
+        uses: stackql/stackql-exec@v1.3.1
+        with:
+          query_file_path: './stackql/scripts/terraform-cleanup/terraform-cleanup.iql'

@@ -1,7 +1,7 @@
 <<<jsonnet
 {
     project: 'stackql-demo-2',
-    zone: 'australia-southeast1-b',
+    zone: 'australia-southeast1-c',
     nameLike: 'terraform-',
 }
 >>>

@@ -1,0 +1,19 @@
+DELETE FROM google.compute.instances
+WHERE project = 'stackql-demo-2'
+AND zone = 'australia-southeast1-c'
+AND instance = 'terraform-test-1';
+
+DELETE FROM google.compute.instances
+WHERE project = 'stackql-demo-2'
+AND zone = 'australia-southeast1-c'
+AND instance = 'terraform-test-2';
+
+DELETE FROM google.compute.instances
+WHERE project = 'stackql-demo-2'
+AND zone = 'australia-southeast1-c'
+AND instance = 'terraform-test-3';
+
+DELETE FROM google.storage.buckets
+WHERE bucket = 'stackql-demo-public-access-not-enforced';
+
+
