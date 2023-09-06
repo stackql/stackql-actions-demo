@@ -134,14 +134,11 @@ This step demonstrates how to use the `stackql-assert` action to run a complianc
   uses: stackql/stackql-assert@v1.3.1
   with:
     test_query: |
-      SELECT
-        name,
-        labels,
-        metadata
-      FROM
-        gcp_compute_instance
-      WHERE
-        metadata.items[0].value = 'test'
+      SELECT name
+      , JSON_EXTRACT(iamConfiguration, '$.publicAccessPrevention') as publicAccessPrevention 
+      FROM google.storage.buckets 
+      WHERE project = 'stackql-demo-2' 
+      AND publicAccessPrevention = 'inherited';
     expected_rows: 0
   env:
     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
