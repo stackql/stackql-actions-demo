@@ -67,62 +67,62 @@ jobs:
           data_file_path: './stackql/data/vars.jsonnet'
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}          
 
-  # stackql-actions-with-terraform-demo:
-  #   name: stackql actions with terraform demo
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-  #     GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
-  #     GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}
+  stackql-actions-with-terraform-demo:
+    name: stackql actions with terraform demo
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+      GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}
 
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       name: checkout repo
-  #       with:
-  #         fetch-depth: 0
+    steps:
+      - uses: actions/checkout@v3
+        name: checkout repo
+        with:
+          fetch-depth: 0
 
-  #     - name: setup StackQL
-  #       uses: stackql/setup-stackql@v1.2.0
-  #       with:
-  #         use_wrapper: true
+      - name: setup StackQL
+        uses: stackql/setup-stackql@v1.2.0
+        with:
+          use_wrapper: true
 
-  #     - name: pull Google docs
-  #       uses: stackql/stackql-exec@v1.3.1
-  #       with:
-  #         query: "REGISTRY PULL google"
+      - name: pull Google docs
+        uses: stackql/stackql-exec@v1.3.1
+        with:
+          query: "REGISTRY PULL google"
 
-  #     - uses: hashicorp/setup-terraform@v2
+      - uses: hashicorp/setup-terraform@v2
 
-  #     - name: Terraform Init
-  #       id: init
-  #       run: cd terraform; terraform init
+      - name: Terraform Init
+        id: init
+        run: cd terraform; terraform init
 
-  #     - name: Terraform Validate
-  #       env:
-  #         TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
-  #       id: validate
-  #       run: cd terraform; terraform validate -no-color
+      - name: Terraform Validate
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
+        id: validate
+        run: cd terraform; terraform validate -no-color
 
-  #     - name: Terraform Plan
-  #       env:
-  #         TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
-  #       id: plan
-  #       run: cd terraform; terraform plan -no-color -var-file=stackql-demo.tfvars
+      - name: Terraform Plan
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
+        id: plan
+        run: cd terraform; terraform plan -no-color -var-file=stackql-demo.tfvars
 
-  #     - name: Terraform Apply
-  #       env:
-  #         TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
-  #       id: apply
-  #       run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars -auto-approve
+      - name: Terraform Apply
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}      
+        id: apply
+        run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars -auto-approve
 
-  #     - name: check terraform deployment using stackql-assert - should pass
-  #       uses: stackql/stackql-assert@v1.3.2
-  #       with:
-  #         test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
-  #         expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
+      - name: check terraform deployment using stackql-assert - should pass
+        uses: stackql/stackql-assert@v1.3.2
+        with:
+          test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
+          expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
 
-  #     - name: run a compliance check using stackql-assert - should fail
-  #       uses: stackql/stackql-assert@v1.3.2
-  #       with:
-  #         test_query_file_path: './stackql/scripts/run-compliance-checks/run-compliance-checks.iql'
-  #         expected_rows: 0
+      - name: run a compliance check using stackql-assert - should fail
+        uses: stackql/stackql-assert@v1.3.2
+        with:
+          test_query_file_path: './stackql/scripts/run-compliance-checks/run-compliance-checks.iql'
+          expected_rows: 0
