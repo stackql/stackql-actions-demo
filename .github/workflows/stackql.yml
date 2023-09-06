@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+      GOOGLE_PROJECT: ${{ vars.GOOGLgit add E_PROJECT }}
       GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}
 
     steps:
@@ -50,7 +50,7 @@ jobs:
       - name: check if we have 4 instances using stackql-assert
         uses: stackql/stackql-assert@v1.3.2
         with:
-          test_query_file_path: './stackql/scripts/check-instances.iql'
+          test_query_file_path: './stackql/scripts/check-instances/check-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}    
           expected_rows: 4
