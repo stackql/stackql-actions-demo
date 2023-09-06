@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      GOOGLE_PROJECT: ${{ vars.GOOGLgit add E_PROJECT }}
+      GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
       GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}
 
     steps:
