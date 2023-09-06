@@ -20,7 +20,7 @@
 >>>
 {{ $root := . }}
 {{range $root.instances}}
-EXEC /*+ AWAIT  */ google.compute.instances.stop 
+EXEC google.compute.instances.stop 
 @instance='{{.name}}',
 @project='{{$root.project}}',
 @zone='{{$root.zone}}';
