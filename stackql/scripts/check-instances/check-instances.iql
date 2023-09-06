@@ -1,0 +1,12 @@
+<<<jsonnet
+{
+    project: 'stackql-demo-2',
+    zone: 'australia-southeast1-b',
+    nameLike: 'actions-test-',
+}
+>>>
+SELECT id, name 
+FROM google.compute.instances 
+WHERE project = '{{.project}}' 
+AND zone = '{{.zone}}'
+AND name LIKE '{{.nameLike}}%';

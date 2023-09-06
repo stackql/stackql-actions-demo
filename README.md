@@ -9,20 +9,23 @@ StackQL GitHub Actions include:
 
 ## Prerequisites
 
-You will need to provide the necessary authentication to your target providers (using Actions secrets) and set the auth struct, which declares the providers you want to authenticate to in your StackQL query and what variables hold the relevant credentials for these providers (see [`stackql/auth.json`](stackql/auth.json)), this can also be supplied to any of the actions as a file using the `auth_obj_path` argument or from a string using the `auth_str` argument.  
+Authentication to StackQL providers is done via environment variables source from GitHub Actions Secrets. To learn more about authentication, see the setup instructions for your provider or providers at the [StackQL Provider Registry Docs](https://registry.stackql.io/). 
 
 ## Demo workflow
 
 The demo workflow in this repository is configured to run on a push to the `main` branch and performs the following steps:  
 
 ```mermaid
-flowchart LR;
+flowchart TB
     1[setup StackQL\n<code><b>setup-stackql</b></code>]-->2[dry run query\nusing <code><b>stackql</b></code>];
     2-->3[deploy instances\nusing <code><b>stackql-exec</b></code>];
     3-->4[stop instances\nusing <code><b>stackql-exec</b></code>];
     4-->5[validate deployment\nusing <code><b>stackql-assert</b></code>];
-    5-->6[deploy instances\nusing <code><b>terraform</b></code>];
-    6-->7[validate deployment\nusing <code><b>stackql-assert</b></code>];
+    5-->6;
+
+    subgraph "Terraform Validation"
+        6[deploy instances\nusing <code><b>terraform</b></code>]-->7[validate deployment\nusing <code><b>stackql-assert</b></code>];
+    end
 ```
 
 Workflow fragments are explained here:  
@@ -33,7 +36,7 @@ This step uses the [__`setup-stackql`__](https://github.com/marketplace/actions/
 
 ```yaml
 - name: setup StackQL
-  uses: stackql/setup-stackql@v1.1.0
+  uses: stackql/setup-stackql@v1.2.0
   with:
     use_wrapper: true
 ```
@@ -46,7 +49,15 @@ This step demonstrates how to use the `stackql` cli (after the previous `setup-s
 - name: dry run StackQL query
   shell: bash
   run: |
-    stackql exec -i ./stackql/scripts/deploy-instances.iql --output text -H --dryrun
+    stackql exec \
+    -i ./stackql/scripts/deploy-instances/deploy-instances.iql \
+    --iqldata ./stackql/data/vars.jsonnet \
+    --var GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }} \
+    --output text -H --dryrun
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+    GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+    GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}    
 ```
 ### deploy instances using `stackql-exec`
 
@@ -54,10 +65,15 @@ This step demonstrates how to use the [__`stackql-exec`__](https://github.com/ma
 
 ```yaml
 - name: deploy instances using stackql-exec
-  uses: stackql/stackql-exec@v1.0.1
+  uses: stackql/stackql-exec@v1.3.1
   with:
-   auth_obj_path: './stackql/auth.json'
-   query_file_path: './stackql/scripts/deploy-instances.iql'
+    query_file_path: './stackql/scripts/deploy-instances/deploy-instances.iql'
+    data_file_path: './stackql/data/vars.jsonnet'
+    vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+    GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+    GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}
 ```
 
 ### stop running instances using `stackql-exec`
@@ -66,10 +82,15 @@ This step demonstrates how to use `stackql` via the `stackql-exec` action to per
 
 ```yaml
 - name: stop running instances using stackql-exec
-  uses: stackql/stackql-exec@v1.0.1
+  uses: stackql/stackql-exec@v1.3.1
   with:
-    auth_obj_path: './stackql/auth.json'
-    query_file_path: './stackql/scripts/stop-instances.iql'
+    query_file_path: './stackql/scripts/stop-instances/stop-instances.iql'
+    data_file_path: './stackql/data/vars.jsonnet'
+    vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}    
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+    GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+    GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}       
 ```
 
 ### check if we have 4 instances using `stackql-assert`
@@ -78,11 +99,16 @@ This step demonstrates how to use the [__`stackql-assert`__](https://github.com/
 
 ```yaml
 - name: check if we have 4 instances using stackql-assert
-  uses: stackql/stackql-assert@v1.0.2
+  uses: stackql/stackql-assert@v1.3.1
   with:
-    auth_obj_path: './stackql/auth.json'
     test_query_file_path: './stackql/scripts/check-instances.iql'
+    data_file_path: './stackql/data/vars.jsonnet'
+    vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}    
     expected_rows: 4
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+    GOOGLE_PROJECT: ${{ vars.GOOGLE_PROJECT }}
+    GOOGLE_ZONE: ${{ vars.GOOGLE_ZONE }}    
 ```
 
 ### check `terraform` deployment using `stackql-assert`
@@ -90,12 +116,35 @@ This step demonstrates how to use the [__`stackql-assert`__](https://github.com/
 This step demonstrates how to use the `stackql-assert` action in a `terraform` deployment pipeline to run a StackQL `SELECT` query and compare the actual result with an expected result after a `terraform` deployment.  This can test specific configuration properties of the resource (for compliance or policy enforcement) or just the existence of the resource.
 
 ```yaml
-- name: check terraform deployment using stackql-assert - should fail
-  uses: stackql/stackql-assert@v1.0.2
+- name: check terraform deployment using stackql-assert
+  uses: stackql/stackql-assert@v1.3.1
   with:
-    auth_obj_path: './stackql/auth.json'
-    test_query_file_path: './stackql/scripts/check-terraform-instances.iql'
+    test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
     expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+```
+
+### run a compliance (CSPM) check using `stackql-assert`
+
+This step demonstrates how to use the `stackql-assert` action to run a compliance check in a GitHub Actions Workflow.
+
+```yaml
+- name: run a compliance check using stackql-assert
+  uses: stackql/stackql-assert@v1.3.1
+  with:
+    test_query: |
+      SELECT
+        name,
+        labels,
+        metadata
+      FROM
+        gcp_compute_instance
+      WHERE
+        metadata.items[0].value = 'test'
+    expected_rows: 0
+  env:
+    GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 ```
 
 See [`.github/workflows/stackql.yml`](.github/workflows/stackql.yml) for the complete workflow file.

@@ -1,0 +1,19 @@
+{{ $root := . }}
+{{range $root.instances}}
+INSERT INTO google.compute.instances(
+  project,
+  zone,
+  data__name,
+  data__machineType,
+  data__disks,
+  data__networkInterfaces
+)
+SELECT
+  '{{$root.project}}' as project,
+  '{{$root.zone}}' as zone,
+  '{{.name}}' as name,
+  '{{.machineType}}' as machineType,
+  '{{$root.disks}}' as disks,
+  '{{$root.networkInterfaces}}' as networkInterfaces
+;
+{{end}}

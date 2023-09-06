@@ -1,0 +1,7 @@
+{{ $root := . }}
+{{range $root.instances}}
+DELETE FROM google.compute.instances
+WHERE project = '{{ $root.project }}'
+AND zone = '{{ $root.zone }}'
+AND instance = '{{ .name }}';
+{{end}}
