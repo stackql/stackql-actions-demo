@@ -126,3 +126,9 @@ jobs:
         with:
           test_query_file_path: './stackql/scripts/run-compliance-checks/run-compliance-checks.iql'
           expected_rows: 0
+
+      - name: "[CLEANUP] terraform destroy"
+        if: failure()
+        env:
+          TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: cd terraform; terraform destroy -auto-approve

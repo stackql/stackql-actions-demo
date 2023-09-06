@@ -1,1 +1,5 @@
-SELECT 1
+SELECT name
+, JSON_EXTRACT(iamConfiguration, '$.publicAccessPrevention') as publicAccessPrevention 
+FROM google.storage.buckets 
+WHERE project = 'stackql-demo-2' 
+AND publicAccessPrevention = 'inherited';
