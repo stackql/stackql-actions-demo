@@ -119,7 +119,7 @@ jobs:
         uses: stackql/stackql-assert@v1.3.2
         with:
           test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
-          expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
+          expected_rows: 3
 
       - name: run a compliance check using stackql-assert - should fail
         uses: stackql/stackql-assert@v1.3.2

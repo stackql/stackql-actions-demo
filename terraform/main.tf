@@ -21,3 +21,9 @@ resource "google_compute_instance" "instance" {
     }
   }
 }
+
+resource "google_storage_bucket" "stackql-demo-public-access-not-enforced" {
+  name          = "stackql-demo-public-access-not-enforced"
+  location      = "US"
+  force_destroy = true
+}
