@@ -27,6 +27,7 @@ jobs:
           use_wrapper: true
 
       - name: pull Google docs
+        shell: bash
         run: "stackql exec 'REGISTRY PULL google'"
 
       - name: dry run StackQL query
@@ -85,6 +86,7 @@ jobs:
           use_wrapper: true
 
       - name: pull Google docs
+        shell: bash
         run: "stackql exec 'REGISTRY PULL google'"
 
       - uses: hashicorp/setup-terraform@v2
