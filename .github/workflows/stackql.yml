@@ -29,7 +29,7 @@ jobs:
       - name: pull Google docs
         shell: bash
         run: |
-          stackql exec "REGISTRY PULL google" || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
+          stackql exec "REGISTRY PULL google"
 
       - name: dry run StackQL query
         shell: bash
@@ -38,7 +38,7 @@ jobs:
           -i ./stackql/scripts/deploy-instances/deploy-instances.iql \
           --iqldata ./stackql/data/vars.jsonnet \
           --var GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }} \
-          --output text -H --dryrun  || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
+          --output text -H --dryrun
 
       - name: deploy instances using stackql-exec
         uses: stackql/stackql-exec@v1.3.1
@@ -89,7 +89,7 @@ jobs:
       - name: pull Google docs
         shell: bash
         run: |
-          stackql exec "REGISTRY PULL google" || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
+          stackql exec "REGISTRY PULL google"
 
       - uses: hashicorp/setup-terraform@v2
 
