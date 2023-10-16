@@ -27,9 +27,7 @@ jobs:
           use_wrapper: true
 
       - name: pull Google docs
-        uses: stackql/stackql-exec@v1.3.1
-        with:
-          query: "REGISTRY PULL google"
+        run: "stackql exec 'REGISTRY PULL google'"
 
       - name: dry run StackQL query
         shell: bash
