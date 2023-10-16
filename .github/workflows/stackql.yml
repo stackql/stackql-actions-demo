@@ -29,7 +29,7 @@ jobs:
       - name: pull Google docs
         shell: bash
         run: |
-          stackql exec "REGISTRY PULL google"
+          stackql exec "REGISTRY PULL google" || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
 
       - name: dry run StackQL query
         shell: bash
@@ -89,7 +89,7 @@ jobs:
       - name: pull Google docs
         shell: bash
         run: |
-          stackql --version
+          stackql exec "REGISTRY PULL google" || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
 
       - uses: hashicorp/setup-terraform@v2
 
