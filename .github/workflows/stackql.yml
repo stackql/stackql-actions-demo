@@ -28,7 +28,8 @@ jobs:
 
       - name: pull Google docs
         shell: bash
-        run: "stackql exec 'REGISTRY PULL google'"
+        run: |
+          stackql exec "REGISTRY PULL google"
 
       - name: dry run StackQL query
         shell: bash
@@ -87,7 +88,8 @@ jobs:
 
       - name: pull Google docs
         shell: bash
-        run: "stackql exec 'REGISTRY PULL google'"
+        run: |
+          stackql exec "REGISTRY PULL google"
 
       - uses: hashicorp/setup-terraform@v2
 
