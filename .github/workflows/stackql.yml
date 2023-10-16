@@ -89,7 +89,7 @@ jobs:
       - name: pull Google docs
         shell: bash
         run: |
-          stackql exec "REGISTRY PULL google"
+          stackql --version
 
       - uses: hashicorp/setup-terraform@v2
 
