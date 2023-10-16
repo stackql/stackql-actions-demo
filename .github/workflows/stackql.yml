@@ -38,7 +38,7 @@ jobs:
           -i ./stackql/scripts/deploy-instances/deploy-instances.iql \
           --iqldata ./stackql/data/vars.jsonnet \
           --var GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }} \
-          --output text -H --dryrun
+          --output text -H --dryrun  || (exitcode=$?; if [ $exitcode -ne 1 ]; then exit $exitcode; fi)
 
       - name: deploy instances using stackql-exec
         uses: stackql/stackql-exec@v1.3.1
