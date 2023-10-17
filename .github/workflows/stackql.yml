@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: setup StackQL
-        uses: stackql/setup-stackql@v1.2.0
+        uses: stackql/setup-stackql@v2.0.0
         with:
           use_wrapper: true
 
@@ -82,7 +82,7 @@ jobs:
           fetch-depth: 0
 
       - name: setup StackQL
-        uses: stackql/setup-stackql@v1.2.0
+        uses: stackql/setup-stackql@v2.0.0
         with:
           use_wrapper: true
 

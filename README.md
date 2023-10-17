@@ -36,7 +36,7 @@ This step uses the [__`setup-stackql`__](https://github.com/marketplace/actions/
 
 ```yaml
 - name: setup StackQL
-  uses: stackql/setup-stackql@v1.2.0
+  uses: stackql/setup-stackql@v2.0.0
   with:
     use_wrapper: true
 ```
