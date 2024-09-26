@@ -1,3 +1,14 @@
+> ⚡ **Calling All Cloud/DevOps/Data/Security Enthusiasts, Hacktoberfest 2024 is here!** ⚡  
+> Interested in contributing StackQL (SQL) GitHub Actions for **Cloud Security Posture Management (CSPM)**, **Infrastructure-as-Code (IaC) Assurance** or more?  
+>
+> Check out the issues and get started with your first pull request!, Let’s build something amazing together this Hacktoberfest!  
+
+💡 **Explore our repositories:** [StackQL](https://github.com/stackql/stackql), [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-studios-stackql-exec), [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-studios-stackql-assert), [StackQL Deploy](https://stackql-deploy.io/docs/), find provider documentation in the [StackQL Provider Registry Docs](https://registry.stackql.io/)  
+
+🔎 Build out example queries for [`aws`](https://aws.stackql.io/providers/aws/), [`gcp`](https://google.stackql.io/providers/google/), [`azure`](https://azure.stackql.io/providers/azure/), [`digitalocean`](https://digitalocean.stackql.io/providers/digitalocean/), [`linode`](https://linode.stackql.io/providers/linode/), [`okta`](https://okta.stackql.io/providers/okta/) and more, including multicloud queries!  
+
+---
+
 # StackQL GitHub Actions Demo
 
 This repository demonstrates using [__StackQL__](https://github.com/stackql/stackql) with GitHub Actions.  StackQL can provision, de-provision, and perform lifecycle operations on cloud resources across all major cloud providers.  
