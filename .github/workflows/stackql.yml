@@ -40,7 +40,19 @@ jobs:
           --var GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }} \
           --output text -H --dryrun
 
+      - name: initial check for instances using stackql-assert
+        id: check_instances_initial
+        uses: stackql/stackql-assert@v2.2.3
+        with:
+          test_query_file_path: './stackql/scripts/check-instances/check-instances.iql'
+          data_file_path: './stackql/data/vars.jsonnet'
+          vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
+          expected_rows: 4
+        continue-on-error: true
+
       - name: deploy instances using stackql-exec
+        if: steps.check_instances_initial.outcome == 'failure'  # Run if the initial check failed
+        id: deploy_instances
         uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/deploy-instances/deploy-instances.iql'
@@ -48,13 +60,14 @@ jobs:
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
 
       - name: check if we have 4 instances using stackql-assert
+        if: steps.check_instances_initial.outcome == 'failure' && steps.deploy_instances.outcome == 'success'
         uses: stackql/stackql-assert@v2.2.3
         with:
           test_query_file_path: './stackql/scripts/check-instances/check-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
-          vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}    
+          vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
           expected_rows: 4
-
+      
       - name: stop running instances using stackql-exec
         uses: stackql/stackql-exec@v2.2.3
         with:
