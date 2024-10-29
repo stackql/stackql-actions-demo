@@ -57,6 +57,7 @@ jobs:
         with:
           query_file_path: './stackql/scripts/deploy-instances/deploy-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
+          is_command: 'true'
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
 
       - name: check if we have 4 instances using stackql-assert
@@ -72,11 +73,13 @@ jobs:
         uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/stop-instances/stop-instances.iql'
+          is_command: 'true'
 
       - name: "[CLEANUP] delete instances using stackql-exec"
         uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/delete-instances/delete-instances.iql'
+          is_command: 'true'
           data_file_path: './stackql/data/vars.jsonnet'
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}          
 
