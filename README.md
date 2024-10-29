@@ -3,7 +3,7 @@
 >
 > Check out the issues and get started with your first pull request!, Let’s build something amazing together this Hacktoberfest!  
 
-💡 **Explore our repositories:** [StackQL](https://github.com/stackql/stackql), [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-studios-stackql-exec), [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-studios-stackql-assert), [StackQL Deploy](https://stackql-deploy.io/docs/), find provider documentation in the [StackQL Provider Registry Docs](https://registry.stackql.io/)  
+💡 **Explore our repositories:** [StackQL](https://github.com/stackql/stackql), [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-exec), [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-assert), [StackQL Deploy](https://stackql-deploy.io/docs/), find provider documentation in the [StackQL Provider Registry Docs](https://registry.stackql.io/)  
 
 🔎 Build out example queries for [`aws`](https://aws.stackql.io/providers/aws/), [`gcp`](https://google.stackql.io/providers/google/), [`azure`](https://azure.stackql.io/providers/azure/), [`digitalocean`](https://digitalocean.stackql.io/providers/digitalocean/), [`linode`](https://linode.stackql.io/providers/linode/), [`okta`](https://okta.stackql.io/providers/okta/) and more, including multicloud queries!  
 
@@ -14,9 +14,9 @@
 This repository demonstrates using [__StackQL__](https://github.com/stackql/stackql) with GitHub Actions.  StackQL can provision, de-provision, and perform lifecycle operations on cloud resources across all major cloud providers.  
 
 StackQL GitHub Actions include:
-- [__`setup-stackql`__](https://github.com/marketplace/actions/stackql-studios-setup-stackql) : Installs the `stackql` cli on actions runners, used if you want to perform custom operations using StackQL
-- [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-studios-stackql-exec) : Executes a StackQL query within an Actions workflow; this could be used to provision, de-provision, or perform lifecycle operations on cloud resources (using the [`INSERT`](https://stackql.io/docs/language-spec/insert), `UPDATE`, [`DELETE`](https://stackql.io/docs/language-spec/delete), [`EXEC`](https://stackql.io/docs/language-spec/exec) methods), as well as running queries and returning results to the log, file or variable (using the [`SELECT`](https://stackql.io/docs/language-spec/select) method)
-- [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-studios-stackql-assert) : Used to test assertions against the results of a StackQL query, this can be used to validate the state of a resource after an IaC or lifecycle operation has been performed, or to validate the system (e.g., CSPM or compliance queries) 
+- [__`setup-stackql`__](https://github.com/marketplace/actions/setup-stackql) : Installs the `stackql` cli on actions runners, used if you want to perform custom operations using StackQL
+- [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-exec) : Executes a StackQL query within an Actions workflow; this could be used to provision, de-provision, or perform lifecycle operations on cloud resources (using the [`INSERT`](https://stackql.io/docs/language-spec/insert), `UPDATE`, [`DELETE`](https://stackql.io/docs/language-spec/delete), [`EXEC`](https://stackql.io/docs/language-spec/exec) methods), as well as running queries and returning results to the log, file or variable (using the [`SELECT`](https://stackql.io/docs/language-spec/select) method)
+- [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-assert) : Used to test assertions against the results of a StackQL query, this can be used to validate the state of a resource after an IaC or lifecycle operation has been performed, or to validate the system (e.g., CSPM or compliance queries) 
 
 ## Prerequisites
 
@@ -43,11 +43,11 @@ Workflow fragments are explained here:
 
 ### setup StackQL
 
-This step uses the [__`setup-stackql`__](https://github.com/marketplace/actions/stackql-studios-setup-stackql) action to install the `stackql` cli on the actions runner, which is then available to all subsequent steps in the job via `stackql`.  
+This step uses the [__`setup-stackql`__](https://github.com/marketplace/actions/setup-stackql) action to install the `stackql` cli on the actions runner, which is then available to all subsequent steps in the job via `stackql`.  
 
 ```yaml
 - name: setup StackQL
-  uses: stackql/setup-stackql@v2.0.0
+  uses: stackql/setup-stackql@v2.2.3
   with:
     use_wrapper: true
 ```
@@ -72,11 +72,11 @@ This step demonstrates how to use the `stackql` cli (after the previous `setup-s
 ```
 ### deploy instances using `stackql-exec`
 
-This step demonstrates how to use the [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-studios-stackql-exec) method to perform a StackQL query; in this case, we are using the `INSERT` method to deploy instances on GCP.  
+This step demonstrates how to use the [__`stackql-exec`__](https://github.com/marketplace/actions/stackql-exec) method to perform a StackQL query; in this case, we are using the `INSERT` method to deploy instances on GCP.  
 
 ```yaml
 - name: deploy instances using stackql-exec
-  uses: stackql/stackql-exec@v1.3.1
+  uses: stackql/stackql-exec@v2.2.3
   with:
     query_file_path: './stackql/scripts/deploy-instances/deploy-instances.iql'
     data_file_path: './stackql/data/vars.jsonnet'
@@ -93,7 +93,7 @@ This step demonstrates how to use `stackql` via the `stackql-exec` action to per
 
 ```yaml
 - name: stop running instances using stackql-exec
-  uses: stackql/stackql-exec@v1.3.1
+  uses: stackql/stackql-exec@v2.2.3
   with:
     query_file_path: './stackql/scripts/stop-instances/stop-instances.iql'
     data_file_path: './stackql/data/vars.jsonnet'
@@ -106,11 +106,11 @@ This step demonstrates how to use `stackql` via the `stackql-exec` action to per
 
 ### check if we have 4 instances using `stackql-assert`
 
-This step demonstrates how to use the [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-studios-stackql-assert) action to run a StackQL `SELECT` query and compare the actual result count with an expected result count, if there is a discrepancy then the action will fail.  
+This step demonstrates how to use the [__`stackql-assert`__](https://github.com/marketplace/actions/stackql-assert) action to run a StackQL `SELECT` query and compare the actual result count with an expected result count, if there is a discrepancy then the action will fail.  
 
 ```yaml
 - name: check if we have 4 instances using stackql-assert
-  uses: stackql/stackql-assert@v1.3.1
+  uses: stackql/stackql-assert@v2.2.3
   with:
     test_query_file_path: './stackql/scripts/check-instances.iql'
     data_file_path: './stackql/data/vars.jsonnet'
@@ -128,7 +128,7 @@ This step demonstrates how to use the `stackql-assert` action in a `terraform` d
 
 ```yaml
 - name: check terraform deployment using stackql-assert
-  uses: stackql/stackql-assert@v1.3.1
+  uses: stackql/stackql-assert@v2.2.3
   with:
     test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
     expected_results_str: '[{"name":"terraform-test-1","name":"terraform-test-2"}]'
@@ -142,7 +142,7 @@ This step demonstrates how to use the `stackql-assert` action to run a complianc
 
 ```yaml
 - name: run a compliance check using stackql-assert
-  uses: stackql/stackql-assert@v1.3.1
+  uses: stackql/stackql-assert@v2.2.3
   with:
     test_query: |
       SELECT name

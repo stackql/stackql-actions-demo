@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: setup StackQL
-        uses: stackql/setup-stackql@v2.0.0
+        uses: stackql/setup-stackql@v2.2.3
         with:
           use_wrapper: true
 
@@ -41,14 +41,14 @@ jobs:
           --output text -H --dryrun
 
       - name: deploy instances using stackql-exec
-        uses: stackql/stackql-exec@v1.3.1
+        uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/deploy-instances/deploy-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
           vars: GOOGLE_PROJECT=${{ env.GOOGLE_PROJECT }},GOOGLE_ZONE=${{ env.GOOGLE_ZONE }}
 
       - name: check if we have 4 instances using stackql-assert
-        uses: stackql/stackql-assert@v1.3.2
+        uses: stackql/stackql-assert@v2.2.3
         with:
           test_query_file_path: './stackql/scripts/check-instances/check-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
@@ -56,12 +56,12 @@ jobs:
           expected_rows: 4
 
       - name: stop running instances using stackql-exec
-        uses: stackql/stackql-exec@v1.3.1
+        uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/stop-instances/stop-instances.iql'
 
       - name: "[CLEANUP] delete instances using stackql-exec"
-        uses: stackql/stackql-exec@v1.3.1
+        uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/delete-instances/delete-instances.iql'
           data_file_path: './stackql/data/vars.jsonnet'
@@ -82,7 +82,7 @@ jobs:
           fetch-depth: 0
 
       - name: setup StackQL
-        uses: stackql/setup-stackql@v2.0.0
+        uses: stackql/setup-stackql@v2.2.3
         with:
           use_wrapper: true
 
@@ -116,19 +116,19 @@ jobs:
         run: cd terraform; terraform apply -no-color -var-file=stackql-demo.tfvars -auto-approve
 
       - name: check terraform deployment using stackql-assert - should pass
-        uses: stackql/stackql-assert@v1.3.2
+        uses: stackql/stackql-assert@v2.2.3
         with:
           test_query_file_path: './stackql/scripts/check-terraform-instances/check-terraform-instances.iql'
           expected_rows: 3
 
       - name: run a compliance check using stackql-assert - should fail
-        uses: stackql/stackql-assert@v1.3.2
+        uses: stackql/stackql-assert@v2.2.3
         with:
           test_query_file_path: './stackql/scripts/run-compliance-checks/run-compliance-checks.iql'
           expected_rows: 0
 
       - name: "[CLEANUP] delete instances and bucket using stackql-exec"
         if: failure()
-        uses: stackql/stackql-exec@v1.3.1
+        uses: stackql/stackql-exec@v2.2.3
         with:
           query_file_path: './stackql/scripts/terraform-cleanup/terraform-cleanup.iql'
